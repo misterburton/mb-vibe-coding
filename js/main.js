@@ -77,8 +77,16 @@ class ThreeJSHeader {
     }
 
     setupEventListeners() {
-        // Handle window resize
-        window.addEventListener('resize', this.onResize.bind(this));
+        // Use ResizeObserver for more efficient resize handling
+        this.resizeObserver = new ResizeObserver(entries => {
+            // Only proceed if we have entries and our container is being observed
+            if (entries && entries[0] && entries[0].target === this.container) {
+                this.onResize();
+            }
+        });
+        
+        // Start observing the container
+        this.resizeObserver.observe(this.container);
         
         // Track mouse movement for shader effects
         window.addEventListener('mousemove', this.onMouseMove.bind(this));
@@ -114,6 +122,22 @@ class ThreeJSHeader {
         
         // Render scene
         this.renderer.render(this.scene, this.camera);
+    }
+
+    // Clean up resources when instance is destroyed
+    destroy() {
+        // Disconnect the ResizeObserver
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+        }
+        
+        // Remove event listeners
+        window.removeEventListener('mousemove', this.onMouseMove);
+        
+        // Dispose of Three.js resources
+        this.geometry.dispose();
+        this.material.dispose();
+        this.renderer.dispose();
     }
 }
 
