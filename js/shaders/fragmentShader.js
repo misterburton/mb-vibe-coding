@@ -10,7 +10,7 @@ export const fragmentShader = `
     #define lineWidth 0.2
     #define lineCountX 35.0
     #define lineCountY 16.67 // 50.0/3.0
-    #define speed 16.0
+    #define speed 8.0
     #define gridColor vec3(0.2, 0.05, 1.0)
 
     // Noise function for terrain generation
@@ -42,6 +42,10 @@ export const fragmentShader = `
         float time = uTime;
         float zoom = 1.0;
         float col = 0.0;
+        
+        // Apply aspect ratio correction to match the sun's correction
+        float aspect = uResolution.x / uResolution.y;
+        uv.x /= aspect;
         
         // Camera setup
         vec3 cam = vec3(0.0, 1.0, 0.1),
