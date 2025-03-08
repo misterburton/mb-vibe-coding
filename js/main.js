@@ -59,14 +59,19 @@ class ThreeJSHeader {
         // Create a timeline for intro animation
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         
-        // Animate the header elements
-        tl.fromTo('.hero h1', 
-            { opacity: 0, y: 50 }, 
-            { opacity: 1, y: 0, duration: 1.5 }
-        )
-        .fromTo('.hero p', 
+        // Animate the header elements with staggered entrance
+        tl.fromTo('.vibe-coding', 
             { opacity: 0, y: 30 }, 
-            { opacity: 1, y: 0, duration: 1.2 }, 
+            { opacity: 1, y: 0, duration: 1.2 }
+        )
+        .fromTo('.hackathon', 
+            { opacity: 0, scale: 0.95, rotation: -6 }, 
+            { opacity: 1, scale: 1, rotation: -5, duration: 0.75, ease: "Expo.out(1, 0.3)" }, 
+            "-=0.7"
+        )
+        .fromTo('p', 
+            { opacity: 0, y: 20 }, 
+            { opacity: 1, y: 0, duration: 1, delay: 0.5 }, 
             "-=1"
         );
     }

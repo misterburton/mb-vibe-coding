@@ -5,6 +5,14 @@
     box-sizing: border-box;
 }
 
+/* Import Road Rage font */
+@font-face {
+    font-family: 'Road Rage';
+    src: url('../fonts/Road_Rage.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     line-height: 1.6;
@@ -68,22 +76,77 @@ main {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
+    position: relative;
 }
 
-h1 {
-    font-size: clamp(2.5rem, 8vw, 5rem);
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+/* Title styling */
+.title-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.vibe-coding {
+    font-size: clamp(2rem, 6vw, 4rem);
     font-weight: 800;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     color: #fff;
     text-transform: uppercase;
+    margin-bottom: -0.5rem;
+    z-index: 2;
+}
+
+.hackathon {
+    font-family: 'Road Rage', cursive;
+    font-size: clamp(3rem, 10vw, 6rem);
+    line-height: 0.9;
+    transform: rotate(-5deg);
+    color: #ff3bac;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    text-shadow: 
+        0 0 5px rgba(255, 59, 172, 0.7),
+        0 0 10px rgba(255, 59, 172, 0.7),
+        0 0 20px rgba(255, 59, 172, 0.7),
+        0 0 30px rgba(128, 0, 128, 0.7),
+        0 0 40px rgba(128, 0, 128, 0.5),
+        0 0 55px rgba(128, 0, 128, 0.4),
+        0 0 70px rgba(128, 0, 128, 0.3);
+    margin-top: -0.5rem;
+    letter-spacing: 2px;
+    animation: hackathon-glow 1.5s infinite alternate;
+}
+
+@keyframes hackathon-glow {
+    from {
+        text-shadow: 
+            0 0 5px rgba(255, 59, 172, 0.7),
+            0 0 10px rgba(255, 59, 172, 0.7),
+            0 0 20px rgba(255, 59, 172, 0.7),
+            0 0 30px rgba(128, 0, 128, 0.7),
+            0 0 40px rgba(128, 0, 128, 0.5),
+            0 0 55px rgba(128, 0, 128, 0.4),
+            0 0 70px rgba(128, 0, 128, 0.3);
+    }
+    to {
+        text-shadow: 
+            0 0 5px rgba(255, 59, 172, 0.9),
+            0 0 10px rgba(255, 59, 172, 0.9),
+            0 0 20px rgba(255, 59, 172, 0.9),
+            0 0 30px rgba(128, 0, 128, 0.8),
+            0 0 40px rgba(128, 0, 128, 0.6),
+            0 0 55px rgba(128, 0, 128, 0.5),
+            0 0 70px rgba(128, 0, 128, 0.4);
+    }
 }
 
 p {
-    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-size: clamp(.9rem, 3vw, 1.1rem);
     max-width: 800px;
-    margin: 0 auto;
+    margin: 2rem auto 0;
     color: rgba(255, 255, 255, 0.9);
 }
 
@@ -125,5 +188,9 @@ p {
 @media (max-width: 768px) {
     .hero {
         padding: 2rem 0;
+    }
+    
+    .hackathon {
+        font-size: clamp(3rem, 10vw, 6rem);
     }
 } 

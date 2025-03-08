@@ -10,7 +10,7 @@ export const fragmentShader = `
     #define lineWidth 0.2
     #define lineCountX 35.0
     #define lineCountY 16.67 // 50.0/3.0
-    #define speed 6.0
+    #define speed 16.0
     #define gridColor vec3(0.2, 0.05, 1.0)
 
     // Noise function for terrain generation
