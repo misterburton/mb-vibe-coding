@@ -1,11 +1,12 @@
 export const fragmentShader = `
     uniform float uTime;
     uniform vec2 uResolution;
-    uniform vec2 uMouse;
+    uniform float uPerformance;
     varying vec2 vUv;
 
     // Constants for grid and terrain
-    #define iters 70
+    // Base iterations that will be adjusted by performance
+    const float MAX_ITERS = 70.0;
     #define minDst 0.001
     #define lineWidth 0.2
     #define lineCountX 35.0
@@ -43,6 +44,9 @@ export const fragmentShader = `
         float zoom = 1.0;
         float col = 0.0;
         
+        // Adjust iterations based on performance
+        int iters = int(mix(30.0, MAX_ITERS, uPerformance));
+        
         // Apply aspect ratio correction to match the sun's correction
         float aspect = uResolution.x / uResolution.y;
         uv.x /= aspect;
@@ -61,7 +65,8 @@ export const fragmentShader = `
         
         // Ray marching loop
         vec3 p = cam;
-        for (int i = 0; i < iters; i++) {
+        for (int i = 0; i < 100; i++) { // Use a high fixed loop count
+            if (i >= iters) break;      // But break based on dynamic iteration count
             distSur = getDistance(p);
             if (distOrigin > 2.0) break;
             if (distSur < minDst) {
@@ -134,9 +139,9 @@ export const fragmentShader = `
         }
         
         // Add scanline effect
-        float flickerFreq = 1400.0;
-        float flickerSpeed = 30.0;
-        float flickerIntensity = 0.1;
+        float flickerFreq = mix(700.0, 1400.0, uPerformance);
+        float flickerSpeed = mix(15.0, 30.0, uPerformance);
+        float flickerIntensity = mix(0.05, 0.1, uPerformance);
         float scanline = smoothstep(1.0 - 0.2 / flickerFreq, 1.0, sin(time * flickerSpeed * 0.1 + uv.y * 4.0));
         finalColor *= scanline * 0.2 + 1.0;
         

@@ -7,9 +7,13 @@ class ThreeJSHeader {
         this.container = document.getElementById('header-canvas-container');
         this.width = window.innerWidth;
         this.height = window.innerHeight;
-        this.mouseX = 0;
-        this.mouseY = 0;
         this.time = 0;
+        
+        // FPS monitoring
+        this.fps = 60;
+        this.frameCount = 0;
+        this.lastTime = performance.now();
+        this.fpsUpdateInterval = 1000; // Update FPS every second
 
         this.init();
         this.setupEventListeners();
@@ -42,7 +46,7 @@ class ThreeJSHeader {
             uniforms: {
                 uTime: { value: 0 },
                 uResolution: { value: new THREE.Vector2(this.width, this.height) },
-                uMouse: { value: new THREE.Vector2(0, 0) }
+                uPerformance: { value: 1.0 } // 1.0 = high quality, 0.0 = low quality
             }
         });
 
@@ -87,9 +91,6 @@ class ThreeJSHeader {
         
         // Start observing the container
         this.resizeObserver.observe(this.container);
-        
-        // Track mouse movement for shader effects
-        window.addEventListener('mousemove', this.onMouseMove.bind(this));
     }
 
     onResize() {
@@ -104,17 +105,32 @@ class ThreeJSHeader {
         this.material.uniforms.uResolution.value.set(this.width, this.height);
     }
 
-    onMouseMove(event) {
-        // Normalize mouse coordinates
-        this.mouseX = (event.clientX / this.width) * 2 - 1;
-        this.mouseY = -(event.clientY / this.height) * 2 + 1;
-        
-        // Update shader uniform
-        this.material.uniforms.uMouse.value.set(this.mouseX, this.mouseY);
-    }
-
     animate() {
         requestAnimationFrame(this.animate.bind(this));
+        
+        // Calculate FPS
+        this.frameCount++;
+        const now = performance.now();
+        const elapsed = now - this.lastTime;
+        
+        // Update FPS every second
+        if (elapsed >= this.fpsUpdateInterval) {
+            this.fps = Math.round((this.frameCount * 1000) / elapsed);
+            this.frameCount = 0;
+            this.lastTime = now;
+            
+            // Adjust quality based on FPS
+            let performanceValue = 1.0; // Default high quality
+            
+            if (this.fps < 30) {
+                performanceValue = 0.3; // Low performance
+            } else if (this.fps < 45) {
+                performanceValue = 0.6; // Medium performance
+            }
+            
+            // Update performance uniform
+            this.material.uniforms.uPerformance.value = performanceValue;
+        }
         
         // Update time uniform for shader animation
         this.time += 0.01;
@@ -131,9 +147,6 @@ class ThreeJSHeader {
             this.resizeObserver.disconnect();
         }
         
-        // Remove event listeners
-        window.removeEventListener('mousemove', this.onMouseMove);
-        
         // Dispose of Three.js resources
         this.geometry.dispose();
         this.material.dispose();
@@ -145,3 +158,11 @@ class ThreeJSHeader {
 window.addEventListener('DOMContentLoaded', () => {
     new ThreeJSHeader();
 }); 
+
+// Clean up resources before page unload
+window.addEventListener('beforeunload', () => {
+    if (headerInstance) {
+        headerInstance.destroy();
+        headerInstance = null;
+    }
+});
