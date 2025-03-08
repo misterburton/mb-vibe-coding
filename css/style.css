@@ -222,6 +222,36 @@ main {
     }
 }
 
+/* Add desktop-specific adjustments */
+@media (min-width: 769px) {
+    .hero p {
+        top: 30vh; /* Move text content down on larger screens */
+        font-size: 1.8rem; /* Slightly smaller font for better spacing */
+    }
+    
+    .title-container {
+        margin-top: -10vh; /* Move title up to create more space */
+    }
+    
+    .vibe-coding {
+        font-size: 3.5rem; /* Control size on desktop */
+    }
+    
+    .hackathon {
+        font-size: 5.5rem; /* Control size on desktop */
+    }
+    
+    .tagline-text {
+        top: 8%; /* Position tagline a bit lower on desktop */
+        font-size: 1.1rem; /* Slightly larger on desktop */
+    }
+    
+    .mpaa-rating {
+        width: 120px; /* Slightly larger rating image on desktop */
+        height: auto;
+    }
+}
+
 /* Add this to your CSS file */
 .tagline-text {
     font-family: 'Orbitron', 'Chakra Petch', sans-serif; /* Retro tech font */
