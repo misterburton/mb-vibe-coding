@@ -173,7 +173,8 @@ main {
     left: 0;
     right: 0;
     line-height: 1.2;
-    letter-spacing: 1.25px;
+    letter-spacing: 1.5px;
+    word-spacing: -2px;
     z-index: 2; /* Ensure text appears above the gradient */
 }
 
