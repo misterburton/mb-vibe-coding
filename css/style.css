@@ -35,12 +35,15 @@ body {
 header {
     position: absolute;
     width: 100%;
+    height: 100vh; /* Fallback for browsers that don't support svh */
     height: 100svh;
+    max-height: 100vh; /* Ensure header never exceeds viewport height */
     overflow: hidden;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    box-sizing: border-box; /* Ensure padding doesn't add to dimensions */
 }
 
 #header-canvas-container {
@@ -48,15 +51,21 @@ header {
     top: 0;
     left: 0;
     width: 100% !important;
+    height: 100vh !important; /* Fallback for browsers that don't support svh */
     height: 100svh !important;
+    max-height: 100vh !important; /* Ensure container never exceeds viewport height */
     z-index: 1;
     overflow: hidden;
+    box-sizing: border-box; /* Ensure padding doesn't add to dimensions */
 }
 
 #header-canvas-container canvas {
     width: 100% !important;
+    height: 100vh !important; /* Fallback for browsers that don't support svh */
     height: 100svh !important;
+    max-height: 100vh !important; /* Ensure canvas never exceeds viewport height */
     display: block;
+    box-sizing: border-box; /* Ensure padding doesn't add to dimensions */
 }
 
 /* Main content styles */
