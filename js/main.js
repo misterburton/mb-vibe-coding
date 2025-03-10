@@ -9,11 +9,16 @@ class ThreeJSHeader {
         this.height = window.innerHeight;
         this.time = 0;
         
-        // FPS monitoring
+        // FPS monitoring - IMPROVEMENT 1: More responsive performance monitoring
         this.fps = 60;
         this.frameCount = 0;
         this.lastTime = performance.now();
-        this.fpsUpdateInterval = 1000; // Update FPS every second
+        this.fpsUpdateInterval = 250; // Reduced from 1000ms to 250ms for faster response
+        
+        // IMPROVEMENT 2: Add smooth transition for performance value
+        this.targetPerformanceValue = 1.0;
+        this.currentPerformanceValue = 1.0;
+        this.performanceTransitionSpeed = 0.05; // How quickly to transition between performance levels
 
         this.init();
         this.setupEventListeners();
@@ -113,23 +118,32 @@ class ThreeJSHeader {
         const now = performance.now();
         const elapsed = now - this.lastTime;
         
-        // Update FPS every second
+        // Update FPS more frequently (IMPROVEMENT 1)
         if (elapsed >= this.fpsUpdateInterval) {
             this.fps = Math.round((this.frameCount * 1000) / elapsed);
             this.frameCount = 0;
             this.lastTime = now;
             
-            // Adjust quality based on FPS
-            let performanceValue = 1.0; // Default high quality
-            
+            // Adjust target quality based on FPS
             if (this.fps < 30) {
-                performanceValue = 0.3; // Low performance
+                this.targetPerformanceValue = 0.3; // Low performance
             } else if (this.fps < 45) {
-                performanceValue = 0.6; // Medium performance
+                this.targetPerformanceValue = 0.6; // Medium performance
+            } else {
+                this.targetPerformanceValue = 1.0; // High performance
             }
+        }
+        
+        // IMPROVEMENT 2: Smooth transition between performance values
+        if (this.currentPerformanceValue !== this.targetPerformanceValue) {
+            this.currentPerformanceValue = THREE.MathUtils.lerp(
+                this.currentPerformanceValue,
+                this.targetPerformanceValue,
+                this.performanceTransitionSpeed
+            );
             
-            // Update performance uniform
-            this.material.uniforms.uPerformance.value = performanceValue;
+            // Update performance uniform with smoothly transitioned value
+            this.material.uniforms.uPerformance.value = this.currentPerformanceValue;
         }
         
         // Update time uniform for shader animation
