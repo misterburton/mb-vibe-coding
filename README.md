@@ -8,6 +8,8 @@ A responsive web application for the Vibe Coding Hackathon event featuring a Web
 - Interactive animations using GSAP
 - Responsive design that works across all devices
 - Modern, modular JavaScript architecture
+- Social media optimization with OpenGraph and Twitter Card meta tags
+- Interactive button elements with hover/tap states
 
 ## Technologies Used
 
@@ -15,6 +17,7 @@ A responsive web application for the Vibe Coding Hackathon event featuring a Web
 - GSAP (v3.12.4) - For smooth animations
 - Custom WebGL Shaders - For creating unique visual effects
 - Vanilla JavaScript - Modern ES6+ features
+- Google Fonts (Orbitron and Chakra Petch) - For custom typography
 
 ## Project Structure
 
