@@ -297,3 +297,24 @@ main {
 .mpaa-rating {
     margin-top: 2rem;
 }
+
+/* Rating button styles */
+.rating-button {
+    display: inline-block;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    cursor: pointer;
+  }
+  
+  /* Desktop hover state */
+  @media (hover: hover) {
+    .rating-button:hover {
+      opacity: 0.85;
+      transform: scale(1.05);
+    }
+  }
+  
+  /* Active/tap state (works on both desktop and mobile) */
+  .rating-button:active {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
