@@ -65,23 +65,34 @@ class ThreeJSHeader {
     }
 
     setupIntroAnimation() {
+        // Set initial visibility while maintaining opacity: 0
+        gsap.set(['.title-container', '.tagline-text', '.hero p', '.mpaa-rating'], {
+            visibility: 'visible',
+            opacity: 0  // Explicitly set initial opacity
+        });
+
         // Create a timeline for intro animation
         const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
         
         // Animate the header elements with staggered entrance
-        tl.fromTo('.vibe-coding', 
+        tl.to('.tagline-text', {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        })
+        .fromTo('.title-container', 
             { opacity: 0, y: 30 }, 
             { opacity: 1, y: 0, duration: 1.2 }
         )
-        .fromTo('.hackathon', 
-            { opacity: 0, scale: 0.95, rotation: -6 }, 
-            { opacity: 1, scale: 1, rotation: -5, duration: 0.75, ease: "Expo.out(1, 0.3)" }, 
+        .fromTo('.hero p', 
+            { opacity: 0, y: 20 }, 
+            { opacity: 1, y: 0, duration: 1 }, 
             "-=0.7"
         )
-        .fromTo('p', 
-            { opacity: 0, y: 20 }, 
-            { opacity: 1, y: 0, duration: 1, delay: 0.5 }, 
-            "-=1"
+        .fromTo('.mpaa-rating',
+            { opacity: 0, scale: 0.9 },
+            { opacity: 1, scale: 1, duration: 0.5, ease: "back.out" },
+            "-=0.5"
         );
     }
 
